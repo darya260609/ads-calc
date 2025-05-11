@@ -1,0 +1,44 @@
+/* Dodatečné styly, které nejsou v Tailwind */
+.language-selector button:focus {
+    outline: 2px solid #3b82f6;
+}
+
+.currency-selector select:focus {
+    outline: 2px solid #3b82f6;
+}
+
+/* Responzivní úpravy */
+@media (max-width: 768px) {
+    .results-container {
+        margin-top: 1.5rem;
+    }
+}
+
+/* Animace přechodu při změně jazyka nebo měny */
+.fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0.7;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Styly pro tlačítka */
+.btn-primary {
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook & Instagram Ad Calculator</title>
+    <!-- Tailwind CSS přes CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React a ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Babel pro JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Vlastní styly -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div id="root" class="container mx-auto py-8"></div>
+
+    <!-- Načtení komponent -->
+    <script type="text/babel" src="js/data/translations.js"></script>
+    <script type="text/babel" src="js/data/currencies.js"></script>
+    <script type="text/babel" src="js/data/industries.js"></script>
+    <script type="text/babel" src="js/data/adObjectives.js"></script>
+    <script type="text/babel" src="js/utils.js"></script>
+    <script type="text/babel" src="js/Calculator.js"></script>
+    <script type="text/babel" src="js/App.js"></script>
+
+    <!-- Inicializace aplikace -->
+    <script type="text/babel">
+        const container = document.getElementById('root');
+        const root = ReactDOM.createRoot(container);
+        root.render(<App />);
+    </script>
+</body>
+</html>
