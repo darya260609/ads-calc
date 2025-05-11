@@ -138,7 +138,8 @@
             // Měna
             selectCurrency: 'Měna:',
             // Nové položky pro měnu
-            currencySettings: 'Nastavení měny'
+            currencySettings: 'Nastavení měny',
+            enterCustomValue: 'Zadejte vlastní hodnotu'
           },
           uk: {
             title: 'Калькулятор витрат на рекламу в Facebook та Instagram',
@@ -211,7 +212,8 @@
             // Валюта
             selectCurrency: 'Валюта:',
             // Нові елементи для валюти
-            currencySettings: 'Налаштування валюти'
+            currencySettings: 'Налаштування валюти',
+            enterCustomValue: 'Введіть власне значення'
           },
           ru: {
             title: 'Калькулятор расходов на рекламу в Facebook и Instagram',
@@ -284,7 +286,8 @@
             // Валюта
             selectCurrency: 'Валюта:',
             // Новые элементы для валюты
-            currencySettings: 'Настройки валюты'
+            currencySettings: 'Настройки валюты',
+            enterCustomValue: 'Введите собственное значение'
           },
           en: {
             title: 'Facebook and Instagram Advertising Cost Calculator',
@@ -357,7 +360,8 @@
             // Currency
             selectCurrency: 'Currency:',
             // New items for currency
-            currencySettings: 'Currency Settings'
+            currencySettings: 'Currency Settings',
+            enterCustomValue: 'Enter custom value'
           }
         };
 
@@ -525,6 +529,14 @@
           return amountCZK * currencies[toCurrency].rate;
         }
 
+        // Konverze z libovolné měny do CZK
+        function convertToCZK(amount, fromCurrency) {
+          if (amount === undefined || amount === null) return 0;
+          if (!currencies[fromCurrency] || fromCurrency === 'CZK') return amount;
+          
+          return amount / currencies[fromCurrency].rate;
+        }
+
         // Vrácení textu podle aktuálního jazyka z objektu překladů
         function translate(key, language) {
           if (!translations[language]) return key;
@@ -554,9 +566,11 @@
         const Calculator = ({ language, currency, setCurrency }) => {
           // Základní stav
           const [budget, setBudget] = React.useState(200);
-          const [customBudget, setCustomBudget] = React.useState('');
+          const [budgetInput, setBudgetInput] = React.useState('custom');
+          const [customBudget, setCustomBudget] = React.useState('200');
           const [duration, setDuration] = React.useState(14);
-          const [customDuration, setCustomDuration] = React.useState('');
+          const [durationInput, setDurationInput] = React.useState('14');
+          const [customDuration, setCustomDuration] = React.useState(false);
           const [cpc, setCpc] = React.useState(8);
           const [customCpc, setCustomCpc] = React.useState('');
           const [cpm, setCpm] = React.useState(150);
@@ -565,7 +579,7 @@
           const [customIndustry, setCustomIndustry] = React.useState('');
           const [adObjective, setAdObjective] = React.useState('awareness');
           
-          // Vypočítané hodnoty
+          // Vypočítané hodnoty v CZK (základní měna)
           const [totalBudget, setTotalBudget] = React.useState(0);
           const [clicks, setClicks] = React.useState(0);
           const [impressions, setImpressions] = React.useState(0);
@@ -574,6 +588,15 @@
           
           // Zkrácení funkce pro překlad
           const t = (key) => translate(key, language);
+          
+          // Sledování změny měny a aktualizace vstupů
+          React.useEffect(() => {
+            if (customBudget !== '') {
+              // Převod z předchozí měny do nové měny
+              const valueInCZK = convertToCZK(parseFloat(customBudget), currency);
+              setCustomBudget(valueInCZK.toString());
+            }
+          }, [currency]);
           
           // Aktualizace CPC a CPM podle odvětví
           React.useEffect(() => {
@@ -588,11 +611,14 @@
           
           // Výpočet výsledků při změně vstupů
           React.useEffect(() => {
-            // Stanovení skutečných hodnot (použití vlastních hodnot má přednost)
-            const actualBudget = customBudget ? parseFloat(customBudget) : budget;
-            const actualDuration = customDuration ? parseFloat(customDuration) : duration;
+            // Stanovení skutečných hodnot (převedené na CZK)
+            const actualBudget = parseFloat(customBudget || budget);
+            const actualDuration = parseFloat(customDuration ? durationInput : duration);
             const actualCpc = customCpc ? parseFloat(customCpc) : cpc;
             const actualCpm = customCpm ? parseFloat(customCpm) : cpm;
+            
+            // Použijeme CZK jako základní měnu pro výpočty
+            const budgetCZK = convertToCZK(actualBudget, currency);
             
             // Získání faktorů pro zvolený cíl reklamy
             const objectiveFactors = adObjectives[adObjective];
@@ -601,8 +627,8 @@
             const adjustedCpc = actualCpc * objectiveFactors.cpcFactor;
             const adjustedCpm = actualCpm * objectiveFactors.cpmFactor;
             
-            // Výpočet celkového rozpočtu
-            const calculatedBudget = actualBudget * actualDuration;
+            // Výpočet celkového rozpočtu v CZK
+            const calculatedBudget = budgetCZK * actualDuration;
             setTotalBudget(calculatedBudget);
             
             // Výpočet počtu kliků
@@ -620,7 +646,25 @@
             const calculatedConversions = calculatedClicks * (objectiveFactors.conversionRate / 100);
             setConversions(calculatedConversions);
             
-          }, [budget, customBudget, duration, customDuration, cpc, customCpc, cpm, customCpm, adObjective]);
+          }, [budget, customBudget, duration, durationInput, customDuration, cpc, customCpc, cpm, customCpm, adObjective, currency]);
+          
+          // Handler pro změnu vlastního rozpočtu
+          const handleCustomBudgetChange = (e) => {
+            const val = e.target.value;
+            setCustomBudget(val);
+            if (val) {
+              setBudget(parseFloat(val));
+            }
+          };
+          
+          // Handler pro změnu vlastní doby trvání
+          const handleCustomDurationChange = (e) => {
+            const val = e.target.value;
+            setDurationInput(val);
+            if (val) {
+              setDuration(parseFloat(val));
+            }
+          };
           
           return (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -651,13 +695,12 @@
                     <label className="block mb-1 font-medium">{t('dailyBudget')}</label>
                     <div className="flex space-x-2">
                       <select
-                        value={customBudget ? 'custom' : budget}
+                        value={budgetInput}
                         onChange={(e) => {
-                          if (e.target.value === 'custom') {
-                            setCustomBudget(budget.toString());
-                          } else {
-                            setCustomBudget('');
+                          setBudgetInput(e.target.value);
+                          if (e.target.value !== 'custom') {
                             setBudget(Number(e.target.value));
+                            setCustomBudget(e.target.value);
                           }
                         }}
                         className="w-1/2 p-2 border rounded"
@@ -669,14 +712,14 @@
                         <option value="custom">{t('customValue')}</option>
                       </select>
                       
-                      {customBudget !== '' && (
+                      {budgetInput === 'custom' && (
                         <input
                           type="number"
                           min="50"
                           value={customBudget}
-                          onChange={(e) => setCustomBudget(e.target.value)}
+                          onChange={handleCustomBudgetChange}
                           className="w-1/2 p-2 border rounded"
-                          placeholder={t('customValue')}
+                          placeholder={t('enterCustomValue')}
                         />
                       )}
                     </div>
@@ -690,9 +733,10 @@
                         value={customDuration ? 'custom' : duration}
                         onChange={(e) => {
                           if (e.target.value === 'custom') {
-                            setCustomDuration(duration.toString());
+                            setCustomDuration(true);
+                            setDurationInput(duration.toString());
                           } else {
-                            setCustomDuration('');
+                            setCustomDuration(false);
                             setDuration(Number(e.target.value));
                           }
                         }}
@@ -706,14 +750,14 @@
                         <option value="custom">{t('customValue')}</option>
                       </select>
                       
-                      {customDuration !== '' && (
+                      {customDuration && (
                         <input
                           type="number"
                           min="1"
-                          value={customDuration}
-                          onChange={(e) => setCustomDuration(e.target.value)}
+                          value={durationInput}
+                          onChange={handleCustomDurationChange}
                           className="w-1/2 p-2 border rounded"
-                          placeholder={t('customDuration')}
+                          placeholder={t('enterCustomValue')}
                         />
                       )}
                     </div>
@@ -764,7 +808,7 @@
                           value={customIndustry}
                           onChange={(e) => setCustomIndustry(e.target.value)}
                           className="w-1/2 p-2 border rounded"
-                          placeholder={t('customIndustry')}
+                          placeholder={t('enterCustomValue')}
                         />
                       )}
                     </div>
@@ -787,7 +831,8 @@
                             {t('edit')}
                           </button>
                         </div>
-                        {customCpc !== '' && (
+                        {/* Vždy zobrazíme pole pro vlastní CPC, ale skryjeme ho, když není aktivní */}
+                        <div className={customCpc !== '' ? 'block' : 'hidden'}>
                           <input
                             type="number"
                             min="0.1"
@@ -797,7 +842,7 @@
                             className="mt-1 w-full p-1 border rounded text-sm"
                             placeholder={t('cpc')}
                           />
-                        )}
+                        </div>
                       </div>
                       <div>
                         <p className="text-sm text-gray-600 mb-1">{t('cpm')}</p>
@@ -810,7 +855,8 @@
                             {t('edit')}
                           </button>
                         </div>
-                        {customCpm !== '' && (
+                        {/* Vždy zobrazíme pole pro vlastní CPM, ale skryjeme ho, když není aktivní */}
+                        <div className={customCpm !== '' ? 'block' : 'hidden'}>
                           <input
                             type="number"
                             min="1"
@@ -820,7 +866,7 @@
                             className="mt-1 w-full p-1 border rounded text-sm"
                             placeholder={t('cpm')}
                           />
-                        )}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -835,7 +881,9 @@
                   <div className="mb-6 p-4 bg-white rounded-lg border border-green-200">
                     <div className="flex justify-between items-center">
                       <span className="font-medium">{t('totalBudget')}</span>
-                      <span className="font-bold text-xl">{formatCurrency(convertCurrency(totalBudget, currency), currency, language)}</span>
+                      <span className="font-bold text-xl">
+                        {formatCurrency(convertCurrency(totalBudget, currency), currency, language)}
+                      </span>
                     </div>
                   </div>
                   
