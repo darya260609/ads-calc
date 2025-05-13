@@ -11,10 +11,10 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <!-- Babel pro JSX -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome pro ikony -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Vlastní CSS -->
+    <link rel="stylesheet" href="css/styles.css">
     <style>
         /* Dodatečné styly */
         .language-selector button:focus {
@@ -64,12 +64,21 @@
 </head>
 <body class="bg-gray-100 min-h-screen">
     <div id="root" class="container mx-auto py-8"></div>
-    <script type="text/babel" src="translations.js"></script>
-    <script type="text/babel" src="data.js"></script>
-    <script type="text/babel" src="components/AdCalculator.js"></script>
-    <script type="text/babel" src="components/CurrencySelector.js"></script>
-    <script type="text/babel" src="components/CountrySelector.js"></script>
-    <script type="text/babel" src="components/PlatformSelector.js"></script>
-    <script type="text/babel" src="app.js"></script>
+
+    <!-- Data a pomocné funkce -->
+    <script src="js/data/translations.js"></script>
+    <script src="js/data/currencies.js"></script>
+    <script src="js/data/industries.js"></script>
+    <script src="js/data/adObjectives.js"></script>
+    <script src="js/data/platforms.js"></script>
+    <script src="js/data/countries.js"></script>
+    <script src="js/utils/helpers.js"></script>
+    
+    <!-- Komponenty -->
+    <script type="text/babel" src="js/components/Calculator.js"></script>
+    <script type="text/babel" src="js/components/App.js"></script>
+    
+    <!-- Inicializace aplikace -->
+    <script type="text/babel" src="js/main.js"></script>
 </body>
 </html>
