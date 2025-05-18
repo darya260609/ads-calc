@@ -62,7 +62,28 @@ const translations = {
     indBeauty: 'Krása a zdraví',
     indTech: 'Technologie',
     indFood: 'Gastronomie',
-    indCustom: 'Vlastní',
+    // Nová odvětví
+    indFinance: 'Finance',
+    indFashion: 'Móda a oblečení',
+    indGaming: 'Hry a gaming',
+    indFitness: 'Fitness a sport',
+    indEntertainment: 'Zábava a volný čas',
+    indLegal: 'Právní služby',
+    indSports: 'Sportovní vybavení',
+    indPets: 'Domácí mazlíčci',
+    indHomeGoods: 'Vybavení domácnosti',
+    indInsurance: 'Pojištění',
+    // Dalších 10 odvětví
+    indJewelry: 'Šperky a hodinky',
+    indConstruction: 'Stavebnictví',
+    indAgriculture: 'Zemědělství',
+    indChildcare: 'Péče o děti',
+    indFurniture: 'Nábytek',
+    indArts: 'Umění a kultura',
+    indMusic: 'Hudba a nástroje', 
+    indWedding: 'Svatby a oslavy',
+    indPhotography: 'Fotografie a video',
+    indElectronics: 'Elektronika',
     // Dny
     days7: '7 dní',
     days14: '14 dní',
@@ -141,7 +162,12 @@ const translations = {
     countryAE: 'Spojené arabské emiráty',
     countrySA: 'Saúdská Arábie',
     countryIL: 'Izrael',
-    countryTR: 'Turecko'
+    countryTR: 'Turecko',
+    searchIndustry: 'Vyhledat odvětví...',
+    industryRecommendation: 'Vyberte odvětví, které nejlépe odpovídá vašemu podnikání',
+    // Odvětví - jídlo (nové)
+    indFoodRetail: 'Potraviny a nápoje',
+    indFastFood: 'Rychlé občerstvení'
   },
   uk: {
     title: 'Калькулятор витрат на рекламу в Facebook та Instagram',
@@ -205,7 +231,28 @@ const translations = {
     indBeauty: 'Краса та здоров\'я',
     indTech: 'Технології',
     indFood: 'Гастрономія',
-    indCustom: 'Власне',
+    // Нові галузі
+    indFinance: 'Фінанси',
+    indFashion: 'Мода та одяг',
+    indGaming: 'Ігри та гейминг',
+    indFitness: 'Фітнес та спорт',
+    indEntertainment: 'Розваги та дозвілля',
+    indLegal: 'Юридичні послуги',
+    indSports: 'Спортивне обладнання',
+    indPets: 'Домашні тварини',
+    indHomeGoods: 'Товари для дому',
+    indInsurance: 'Страхування',
+    // Додаткові 10 галузей
+    indJewelry: 'Ювелірні вироби та годинники',
+    indConstruction: 'Будівництво',
+    indAgriculture: 'Сільське господарство',
+    indChildcare: 'Догляд за дітьми',
+    indFurniture: 'Меблі',
+    indArts: 'Мистецтво та культура',
+    indMusic: 'Музика та інструменти',
+    indWedding: 'Весілля та святкування',
+    indPhotography: 'Фотографія та відео',
+    indElectronics: 'Електроніка',
     // Дні
     days7: '7 днів',
     days14: '14 днів',
@@ -284,7 +331,12 @@ const translations = {
     countryAE: 'Об\'єднані Арабські Емірати',
     countrySA: 'Саудівська Аравія',
     countryIL: 'Ізраїль',
-    countryTR: 'Туреччина'
+    countryTR: 'Туреччина',
+    searchIndustry: 'Пошук галузі...',
+    industryRecommendation: 'Виберіть галузь, яка найкраще відповідає вашому бізнесу',
+    // Галузі - їжа (нові)
+    indFoodRetail: 'Продукти харчування та напої',
+    indFastFood: 'Швидке харчування'
   },
   ru: {
     title: 'Калькулятор расходов на рекламу в Facebook и Instagram',
@@ -348,7 +400,28 @@ const translations = {
     indBeauty: 'Красота и здоровье',
     indTech: 'Технологии',
     indFood: 'Гастрономия',
-    indCustom: 'Собственная',
+    // Новые отрасли
+    indFinance: 'Финансы',
+    indFashion: 'Мода и одежда',
+    indGaming: 'Игры и гейминг',
+    indFitness: 'Фитнес и спорт',
+    indEntertainment: 'Развлечения и досуг',
+    indLegal: 'Юридические услуги',
+    indSports: 'Спортивное оборудование',
+    indPets: 'Домашние животные',
+    indHomeGoods: 'Товары для дома',
+    indInsurance: 'Страхование',
+    // Дополнительные 10 отраслей
+    indJewelry: 'Ювелирные изделия и часы',
+    indConstruction: 'Строительство',
+    indAgriculture: 'Сельское хозяйство',
+    indChildcare: 'Уход за детьми',
+    indFurniture: 'Мебель',
+    indArts: 'Искусство и культура',
+    indMusic: 'Музыка и инструменты',
+    indWedding: 'Свадьбы и торжества',
+    indPhotography: 'Фотография и видео',
+    indElectronics: 'Электроника',
     // Дни
     days7: '7 дней',
     days14: '14 дней',
@@ -427,7 +500,12 @@ const translations = {
     countryAE: 'Объединенные Арабские Эмираты',
     countrySA: 'Саудовская Аравия',
     countryIL: 'Израиль',
-    countryTR: 'Турция'
+    countryTR: 'Турция',
+    searchIndustry: 'Найти отрасль...',
+    industryRecommendation: 'Выберите отрасль, которая лучше всего соответствует вашему бизнесу',
+    // Отрасли - еда (новые)
+    indFoodRetail: 'Продукты питания и напитки',
+    indFastFood: 'Быстрое питание'
   },
   en: {
     title: 'Facebook and Instagram Advertising Cost Calculator',
@@ -491,7 +569,28 @@ const translations = {
     indBeauty: 'Beauty & Health',
     indTech: 'Technology',
     indFood: 'Food & Beverage',
-    indCustom: 'Custom',
+    // New industries
+    indFinance: 'Finance',
+    indFashion: 'Fashion & Clothing',
+    indGaming: 'Gaming & Games',
+    indFitness: 'Fitness & Sports',
+    indEntertainment: 'Entertainment & Leisure',
+    indLegal: 'Legal Services',
+    indSports: 'Sports Equipment',
+    indPets: 'Pets & Pet Supplies',
+    indHomeGoods: 'Home Goods',
+    indInsurance: 'Insurance',
+    // Additional 10 industries
+    indJewelry: 'Jewelry & Watches',
+    indConstruction: 'Construction',
+    indAgriculture: 'Agriculture',
+    indChildcare: 'Childcare',
+    indFurniture: 'Furniture',
+    indArts: 'Arts & Culture',
+    indMusic: 'Music & Instruments',
+    indWedding: 'Weddings & Celebrations',
+    indPhotography: 'Photography & Video',
+    indElectronics: 'Electronics',
     // Days
     days7: '7 days',
     days14: '14 days',
@@ -570,6 +669,11 @@ const translations = {
     countryAE: 'United Arab Emirates',
     countrySA: 'Saudi Arabia',
     countryIL: 'Israel',
-    countryTR: 'Turkey'
+    countryTR: 'Turkey',
+    searchIndustry: 'Search industry...',
+    industryRecommendation: 'Select the industry that best matches your business',
+    // Industries - food (new)
+    indFoodRetail: 'Food & Beverages Retail',
+    indFastFood: 'Fast Food'
   }
 }; 
