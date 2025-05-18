@@ -11,8 +11,9 @@ const Calculator = ({ language, currency, setCurrency }) => {
   const [customCpc, setCustomCpc] = React.useState('');
   const [cpm, setCpm] = React.useState(150);
   const [customCpm, setCustomCpm] = React.useState('');
+  const [showCpcInput, setShowCpcInput] = React.useState(false);
+  const [showCpmInput, setShowCpmInput] = React.useState(false);
   const [industry, setIndustry] = React.useState('ecommerce');
-  const [customIndustry, setCustomIndustry] = React.useState('');
   const [adObjective, setAdObjective] = React.useState('awareness');
   
   // Stav pro platformy
@@ -25,6 +26,10 @@ const Calculator = ({ language, currency, setCurrency }) => {
   const [targetCountry, setTargetCountry] = React.useState('cz');
   const [searchQuery, setSearchQuery] = React.useState('');
   const [showCountryDropdown, setShowCountryDropdown] = React.useState(false);
+  
+  // Nový stav pro odvětví a vyhledávání
+  const [industrySearchQuery, setIndustrySearchQuery] = React.useState('');
+  const [showIndustryDropdown, setShowIndustryDropdown] = React.useState(false);
   
   // Vypočítané hodnoty v CZK (základní měna)
   const [totalBudget, setTotalBudget] = React.useState(0);
@@ -82,6 +87,31 @@ const Calculator = ({ language, currency, setCurrency }) => {
     return regions;
   }, [filteredCountries]);
   
+  // Funkce pro filtrování odvětví na základě vyhledávacího dotazu
+  const filteredIndustries = React.useMemo(() => {
+    if (!industrySearchQuery.trim()) {
+      // Když není vyhledávací dotaz, vrátíme všechny odvětví
+      return Object.entries(industries).sort((a, b) => {
+        const nameA = t(a[1].nameKey);
+        const nameB = t(b[1].nameKey);
+        return nameA.localeCompare(nameB);
+      });
+    }
+    
+    // Filtrování podle vyhledávacího dotazu
+    const query = industrySearchQuery.toLowerCase();
+    return Object.entries(industries)
+      .filter(([key, value]) => {
+        const translatedName = t(value.nameKey);
+        return translatedName.toLowerCase().includes(query);
+      })
+      .sort((a, b) => {
+        const nameA = t(a[1].nameKey);
+        const nameB = t(b[1].nameKey);
+        return nameA.localeCompare(nameB);
+      });
+  }, [industrySearchQuery, language]);
+  
   // Přepínání platform
   const togglePlatform = (platform) => {
     setSelectedPlatforms(prev => {
@@ -109,14 +139,9 @@ const Calculator = ({ language, currency, setCurrency }) => {
   
   // Aktualizace CPC a CPM podle odvětví
   React.useEffect(() => {
-    if (industry === 'custom') {
-      setCpc(customCpc ? parseFloat(customCpc) : 7);
-      setCpm(customCpm ? parseFloat(customCpm) : 140);
-    } else {
-      setCpc(industries[industry]?.cpc || 8);
-      setCpm(industries[industry]?.cpm || 150);
-    }
-  }, [industry, customCpc, customCpm]);
+    setCpc(industries[industry]?.cpc || 8);
+    setCpm(industries[industry]?.cpm || 150);
+  }, [industry]);
   
   // Výpočet výsledků při změně vstupů
   React.useEffect(() => {
@@ -208,6 +233,42 @@ const Calculator = ({ language, currency, setCurrency }) => {
     return t(`country${code.toUpperCase()}`) || countries[code]?.name || '';
   };
   
+  // Výběr odvětví a zavření dropdown menu
+  const selectIndustry = (key) => {
+    setIndustry(key);
+    setShowIndustryDropdown(false);
+    setIndustrySearchQuery('');
+  };
+  
+  // Zobrazení názvu odvětví
+  const getIndustryName = (key) => {
+    return t(industries[key]?.nameKey) || key;
+  };
+  
+  // Handler pro změnu CPC
+  const handleCpcChange = (e) => {
+    const val = e.target.value;
+    setCustomCpc(val);
+    if (val !== '') {
+      setCpc(parseFloat(val));
+    } else {
+      // Pokud je pole prázdné, použijeme výchozí hodnotu pro dané odvětví
+      setCpc(industry === 'custom' ? 7 : industries[industry]?.cpc || 8);
+    }
+  };
+
+  // Handler pro změnu CPM
+  const handleCpmChange = (e) => {
+    const val = e.target.value;
+    setCustomCpm(val);
+    if (val !== '') {
+      setCpm(parseFloat(val));
+    } else {
+      // Pokud je pole prázdné, použijeme výchozí hodnotu pro dané odvětví
+      setCpm(industry === 'custom' ? 140 : industries[industry]?.cpm || 150);
+    }
+  };
+  
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       {/* Levá strana - vstupy */}
@@ -268,7 +329,7 @@ const Calculator = ({ language, currency, setCurrency }) => {
                             <div
                               key={code}
                               onClick={() => selectCountry(code)}
-                              className={`p-2 cursor-pointer rounded country-item ${targetCountry === code ? 'selected' : ''}`}
+                              className={`p-2 cursor-pointer rounded country-item ${targetCountry === code ? 'bg-blue-100' : 'hover:bg-gray-100'}`}
                             >
                               {getCountryName(code)}
                             </div>
@@ -303,6 +364,49 @@ const Calculator = ({ language, currency, setCurrency }) => {
               </div>
             </div>
             <p className="text-sm text-gray-500 mt-1">{t('bothPlatformsRecommended')}</p>
+          </div>
+          
+          {/* Výběr odvětví s vyhledáváním */}
+          <div className="relative">
+            <label className="block mb-1 font-medium">{t('industry')}</label>
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setShowIndustryDropdown(!showIndustryDropdown)}
+                className="w-full p-2 border rounded bg-white flex justify-between items-center cursor-pointer hover:bg-gray-50 industry-dropdown-button"
+              >
+                <span>{getIndustryName(industry)}</span>
+                <i className={`fas fa-chevron-${showIndustryDropdown ? 'up' : 'down'} text-gray-500`}></i>
+              </button>
+              
+              {showIndustryDropdown && (
+                <div className="absolute z-10 mt-1 w-full bg-white border rounded shadow-lg max-h-80 overflow-y-auto industry-dropdown">
+                  <div className="sticky top-0 bg-white p-2 border-b industry-search">
+                    <input
+                      type="text"
+                      value={industrySearchQuery}
+                      onChange={(e) => setIndustrySearchQuery(e.target.value)}
+                      placeholder={t('searchIndustry')}
+                      className="w-full p-2 border rounded"
+                      autoFocus
+                    />
+                  </div>
+                  
+                  <div className="p-2">
+                    {filteredIndustries.map(([key, indData]) => (
+                      <div
+                        key={key}
+                        onClick={() => selectIndustry(key)}
+                        className={`p-2 cursor-pointer rounded industry-item ${industry === key ? 'bg-blue-100' : 'hover:bg-gray-100'}`}
+                      >
+                        {t(indData.nameKey)}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+            <p className="text-sm text-gray-500 mt-1">{t('industryRecommendation')}</p>
           </div>
           
           <div>
@@ -398,40 +502,9 @@ const Calculator = ({ language, currency, setCurrency }) => {
             </p>
           </div>
           
-          <div>
-            <label className="block mb-1 font-medium">{t('industry')}</label>
-            <div className="flex space-x-2">
-              <select
-                value={industry}
-                onChange={(e) => {
-                  setIndustry(e.target.value);
-                  if (e.target.value === 'custom') {
-                    setCustomIndustry(t('customIndustry'));
-                  }
-                }}
-                className="w-full p-2 border rounded"
-              >
-                {Object.entries(industries).map(([key, value]) => (
-                  <option key={key} value={key}>{t(value.nameKey)}</option>
-                ))}
-              </select>
-              
-              {industry === 'custom' && (
-                <input
-                  type="text"
-                  value={customIndustry}
-                  onChange={(e) => setCustomIndustry(e.target.value)}
-                  className="w-1/2 p-2 border rounded"
-                  placeholder={t('enterCustomValue')}
-                />
-              )}
-            </div>
-            <p className="text-sm text-gray-500 mt-1">{t('pricesDifferByIndustry')}</p>
-          </div>
-          
           <div className="mt-6 p-4 bg-blue-100 rounded-lg">
             <h3 className="font-medium mb-2">
-              {t('averagePricesInIndustry')} {industry === 'custom' ? customIndustry : t(industries[industry]?.nameKey)}
+              {t('averagePricesInIndustry')} {t(industries[industry]?.nameKey)}
             </h3>
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -439,48 +512,58 @@ const Calculator = ({ language, currency, setCurrency }) => {
                 <div className="flex items-center">
                   <p className="font-semibold">{formatCurrency(convertCurrency(cpc, currency), currency, language)}</p>
                   <button 
-                    onClick={() => setCustomCpc(cpc.toString())}
+                    onClick={() => {
+                      setShowCpcInput(true);
+                      setCustomCpc(cpc.toString());
+                    }}
                     className="ml-2 text-blue-500 text-sm"
                   >
                     {t('edit')}
                   </button>
                 </div>
-                {/* Vždy zobrazíme pole pro vlastní CPC, ale skryjeme ho, když není aktivní */}
-                <div className={customCpc !== '' ? 'block' : 'hidden'}>
-                  <input
-                    type="number"
-                    min="0.1"
-                    step="0.1"
-                    value={customCpc}
-                    onChange={(e) => setCustomCpc(e.target.value)}
-                    className="mt-1 w-full p-1 border rounded text-sm"
-                    placeholder={t('cpc')}
-                  />
-                </div>
+                {/* CPC input vždy viditelný, když je aktivní */}
+                {showCpcInput && (
+                  <div>
+                    <input
+                      type="number"
+                      min="0.1"
+                      step="0.1"
+                      value={customCpc}
+                      onChange={handleCpcChange}
+                      className="mt-1 w-full p-1 border rounded text-sm"
+                      placeholder={t('cpc')}
+                    />
+                  </div>
+                )}
               </div>
               <div>
                 <p className="text-sm text-gray-600 mb-1">{t('cpm')}</p>
                 <div className="flex items-center">
                   <p className="font-semibold">{formatCurrency(convertCurrency(cpm, currency), currency, language)}</p>
                   <button 
-                    onClick={() => setCustomCpm(cpm.toString())}
+                    onClick={() => {
+                      setShowCpmInput(true);
+                      setCustomCpm(cpm.toString());
+                    }}
                     className="ml-2 text-blue-500 text-sm"
                   >
                     {t('edit')}
                   </button>
                 </div>
-                {/* Vždy zobrazíme pole pro vlastní CPM, ale skryjeme ho, když není aktivní */}
-                <div className={customCpm !== '' ? 'block' : 'hidden'}>
-                  <input
-                    type="number"
-                    min="1"
-                    step="1"
-                    value={customCpm}
-                    onChange={(e) => setCustomCpm(e.target.value)}
-                    className="mt-1 w-full p-1 border rounded text-sm"
-                    placeholder={t('cpm')}
-                  />
-                </div>
+                {/* CPM input vždy viditelný, když je aktivní */}
+                {showCpmInput && (
+                  <div>
+                    <input
+                      type="number"
+                      min="1"
+                      step="1"
+                      value={customCpm}
+                      onChange={handleCpmChange}
+                      className="mt-1 w-full p-1 border rounded text-sm"
+                      placeholder={t('cpm')}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>

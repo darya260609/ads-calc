@@ -10,5 +10,28 @@ const industries = {
   beauty: { nameKey: 'indBeauty', cpc: 4.0, cpm: 105 },
   tech: { nameKey: 'indTech', cpc: 4.8, cpm: 165 },
   food: { nameKey: 'indFood', cpc: 2.5, cpm: 125 },
-  custom: { nameKey: 'indCustom', cpc: 0, cpm: 0 }
+  finance: { nameKey: 'indFinance', cpc: 7.2, cpm: 190 },
+  fashion: { nameKey: 'indFashion', cpc: 4.3, cpm: 145 },
+  gaming: { nameKey: 'indGaming', cpc: 3.0, cpm: 110 },
+  fitness: { nameKey: 'indFitness', cpc: 3.8, cpm: 135 },
+  entertainment: { nameKey: 'indEntertainment', cpc: 3.2, cpm: 120 },
+  legal: { nameKey: 'indLegal', cpc: 8.5, cpm: 175 },
+  sports: { nameKey: 'indSports', cpc: 2.8, cpm: 95 },
+  pets: { nameKey: 'indPets', cpc: 3.3, cpm: 115 },
+  homegoods: { nameKey: 'indHomeGoods', cpc: 4.2, cpm: 130 },
+  insurance: { nameKey: 'indInsurance', cpc: 9.5, cpm: 200 },
+  // Dalších 10 odvětví
+  jewelry: { nameKey: 'indJewelry', cpc: 4.6, cpm: 155 },
+  construction: { nameKey: 'indConstruction', cpc: 6.8, cpm: 140 },
+  agriculture: { nameKey: 'indAgriculture', cpc: 3.9, cpm: 95 },
+  childcare: { nameKey: 'indChildcare', cpc: 4.5, cpm: 110 },
+  furniture: { nameKey: 'indFurniture', cpc: 5.5, cpm: 170 },
+  arts: { nameKey: 'indArts', cpc: 2.8, cpm: 90 },
+  music: { nameKey: 'indMusic', cpc: 3.1, cpm: 100 },
+  wedding: { nameKey: 'indWedding', cpc: 5.8, cpm: 180 },
+  photography: { nameKey: 'indPhotography', cpc: 4.7, cpm: 140 },
+  electronics: { nameKey: 'indElectronics', cpc: 5.9, cpm: 185 },
+  // Přidaná kategorie jídlo
+  food_retail: { nameKey: 'indFoodRetail', cpc: 3.2, cpm: 115 },
+  fast_food: { nameKey: 'indFastFood', cpc: 3.0, cpm: 130 }
 }; 
