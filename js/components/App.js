@@ -53,6 +53,18 @@ const App = () => {
       <div className="mt-6 text-center text-gray-500 text-sm">
         <p>{t('footerNote1')}</p>
         <p className="mt-1">{t('footerNote2')}</p>
+        <div className="mt-4 pt-3 border-t border-gray-200">
+          <p className="flex items-center justify-center">
+            <span>{t('author')}: </span>
+            <a href="https://www.instagram.com/dashakovalchuk_/?hl=cs" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               className="ml-1 text-blue-600 hover:text-blue-800 flex items-center">
+              dashakovalchuk_
+              <i className="fab fa-instagram ml-2"></i>
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );

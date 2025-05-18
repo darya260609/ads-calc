@@ -44,6 +44,7 @@ const translations = {
     tipLeads: 'Pro získání kontaktů nabídněte něco hodnotného zdarma (e-book, konzultace)',
     footerNote1: 'Kalkulačka používá průměrná data z trhu s reklamou na Meta platformách.',
     footerNote2: 'Výsledky se mohou lišit podle mnoha faktorů včetně kvality reklam a konkurence.',
+    author: 'Autor aplikace',
     // Objekty
     objAwareness: 'Povědomí o značce',
     objConsideration: 'Zvážení produktu/služby',
@@ -186,6 +187,7 @@ const translations = {
     tipLeads: 'Для отримання контактів пропонуйте щось цінне безкоштовно (електронна книга, консультація)',
     footerNote1: 'Калькулятор використовує середні дані з ринку реклами на платформах Meta.',
     footerNote2: 'Результати можуть відрізнятися залежно від багатьох факторів, включаючи якість реклами та конкуренцію.',
+    author: 'Автор програми',
     // Об'єкти
     objAwareness: 'Обізнаність про бренд',
     objConsideration: 'Розгляд продукту/послуги',
@@ -328,6 +330,7 @@ const translations = {
     tipLeads: 'Для получения контактов предлагайте что-то ценное бесплатно (электронная книга, консультация)',
     footerNote1: 'Калькулятор использует средние данные с рынка рекламы на платформах Meta.',
     footerNote2: 'Результаты могут отличаться в зависимости от многих факторов, включая качество рекламы и конкуренцию.',
+    author: 'Автор программы',
     // Объекты
     objAwareness: 'Осведомленность о бренде',
     objConsideration: 'Рассмотрение продукта/услуги',
@@ -470,6 +473,7 @@ const translations = {
     tipLeads: 'For acquiring contacts, offer something valuable for free (e-book, consultation)',
     footerNote1: 'The calculator uses average data from the Meta platforms advertising market.',
     footerNote2: 'Results may vary based on many factors including ad quality and competition.',
+    author: 'Author of the application',
     // Objects
     objAwareness: 'Brand Awareness',
     objConsideration: 'Product/Service Consideration',
